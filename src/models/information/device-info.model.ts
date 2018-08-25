@@ -5,6 +5,7 @@ import {Platform} from "ionic-angular";
 import {BuildInfo} from "./build-info.model";
 import {NetworkStatus} from "./network-status.model";
 import {JsonObject, JsonProperty} from "json2typescript";
+import {Permissions} from "./permissions.model";
 
 @JsonObject
 @Injectable()
@@ -14,6 +15,8 @@ export class DeviceInfo {
   firebaseToken: string = undefined;
 
   batteryStatus: BatteryStatusResponse;
+
+  permissions: Permissions = new Permissions();
 
   @JsonProperty('networkStatus', NetworkStatus, true)
   networkStatus: NetworkStatus = undefined;
@@ -31,7 +34,7 @@ export class DeviceInfo {
 
   ionicVersion: string; //TODO
   nativeVersion: string;
-  nativeVersionCode: string;
+  nativeVersionCode: string | number;
 
   isDebug: boolean;
 

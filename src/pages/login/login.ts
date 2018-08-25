@@ -5,6 +5,9 @@ import {RegisterPage} from "../register/register";
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from "../../services/authentication.service";
 import { TranslateService } from '@ngx-translate/core';
+import {ConnectionStatus} from "../../models/information/connection-status.model";
+import {ConnectionStatusService} from "../../services/connection-status-service";
+import {Subject} from "rxjs";
 
 
 @Component({
@@ -14,8 +17,11 @@ import { TranslateService } from '@ngx-translate/core';
 export class LoginPage {
 
   private loginForm : FormGroup;
+  private connectionStatus: ConnectionStatus = new ConnectionStatus();
+  private unsubscribe: Subject<void> = new Subject<void>();
+  public statusColor: string;
 
-  constructor(private authenticationService: AuthenticationService, public formBuilder: FormBuilder,
+  constructor(private connectionStatusService: ConnectionStatusService, private authenticationService: AuthenticationService, public formBuilder: FormBuilder,
               translate: TranslateService, public nav: NavController, public forgotCtrl: AlertController, public menu: MenuController, public toastCtrl: ToastController) {
     this.menu.swipeEnable(false);
     this.loginForm = this.formBuilder.group({
@@ -26,6 +32,16 @@ export class LoginPage {
       this.nav.setRoot(HomePage);
     }
     translate.setDefaultLang('fr');
+    this.connectionStatusService.connectionStatusSubscription
+      .takeUntil(this.unsubscribe)
+      .subscribe((next) => {
+        this.connectionStatus = next;
+        if (!this.connectionStatus.isConnected) {
+          this.statusColor = 'red';
+        } else {
+          this.statusColor = 'green';
+        }
+      });
   }
 
   // go to register page

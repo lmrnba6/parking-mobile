@@ -3,11 +3,15 @@ import { Platform, Nav } from "ionic-angular";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Keyboard } from '@ionic-native/keyboard';
+//import { Keyboard } from '@ionic-native/keyboard';
 
 import { HomePage } from "../pages/home/home";
 import { LoginPage } from "../pages/login/login";
 import { LocalWeatherPage } from "../pages/local-weather/local-weather";
+import {AuthenticationService} from "../services/authentication.service";
+import {DeviceInfoService} from "../services/device-info.service";
+import {EndpointService} from "../services/endpoint.service";
+import {DeviceInfo} from "../models/information/device-info.model";
 
 export interface MenuItem {
     title: string;
@@ -30,7 +34,10 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    public keyboard: Keyboard
+    private authService: AuthenticationService,
+    private deviceInfoService: DeviceInfoService,
+    private endpointService: EndpointService,
+    private deviceInfo: DeviceInfo,
   ) {
     this.initializeApp();
 
@@ -52,8 +59,11 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.statusBar.overlaysWebView(false);
 
+      this.deviceInfoService.init()
+        .then(() => {
+          this.endpointService.init()});
       //*** Control Keyboard
-      this.keyboard.disableScroll(true);
+      //this.keyboard.disableScroll(true);
     });
   }
 
@@ -64,6 +74,7 @@ export class MyApp {
   }
 
   logout() {
+    this.authService.logout();
     this.nav.setRoot(LoginPage);
   }
 

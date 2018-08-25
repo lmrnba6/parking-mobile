@@ -21,7 +21,7 @@ export class AuthenticationService {
         if (user && user.accessToken) {
           this.setToken(user);
         }
-        return user;
+        //return user;
       });
   }
 

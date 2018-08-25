@@ -12,15 +12,16 @@ export const endpoints = {
 @Injectable()
 export class EndpointService {
 
-  static readonly ENDPOINT_STORAGE_KEY: string = "ENDPOINT_URL";
-
   private endpointBehaviorSubject: BehaviorSubject<String> = new BehaviorSubject(endpoints.production);
   public observableEndpoint: Observable<String> = this.endpointBehaviorSubject.asObservable();
-
+  private _currentEndpoint = endpoints.local;
   constructor(private log: LogService) {
   }
 
-  private _currentEndpoint = endpoints.local;
+  init() {
+    this.currentEndpoint = this._currentEndpoint;
+  }
+
 
   get currentEndpoint() {
     return this._currentEndpoint;
@@ -30,7 +31,7 @@ export class EndpointService {
     if (endpoint.endsWith('/')) {
       endpoint = endpoint.substr(0, endpoint.length - 1);
     }
-    localStorage.setItem(EndpointService.ENDPOINT_STORAGE_KEY, endpoint)
+    //localStorage.setItem(EndpointService.ENDPOINT_STORAGE_KEY, endpoint)
     this._currentEndpoint = endpoint;
     this.endpointBehaviorSubject.next(this._currentEndpoint);
   }

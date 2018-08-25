@@ -1,18 +1,23 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ekrini.parking" version="0.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Ekrini Parking</name>
-    <description>Ekrini Parking</description>
-    <author email="loucifriadh@gmail.com" href="https://ekrini-parking.com">Ekrini-Parking</author>
+<widget id="ca.ekrini.parking" version="2.2.14" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>Ekrini-parking</name>
+    <description>Ekrini parking app.</description>
+    <author email="contact@ekrini-parking.ca" href="http://ekrini-parking.ca/">Ekrini Parking Team</author>
     <content src="index.html" />
     <access origin="*" />
+    <allow-navigation href="http://ionic.ekrini.parking.local/*" />
+    <allow-navigation href="http://localhost:8080/*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <allow-intent href="maps:*" />
+    <hook src="scripts/plugin-install.sh" type="after_platform_add" />
     <platform name="android">
         <allow-intent href="market:*" />
+        <resource-file src="google-services.json" target="google-services.json" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -31,10 +36,54 @@
         <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
+        <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.CAMERA" />
+        </config-file>
+        <preference name="loadUrlTimeoutValue" value="700000" />
     </platform>
     <platform name="ios">
+        <hook src="scripts/pod-install.sh" type="before_build" />
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <resource-file src="GoogleService-Info.plist" />
+        <config-file parent="CFBundleDisplayName" platform="ios" target="*-Info.plist">
+            <string>Ekrini-parking</string>
+        </config-file>
+        <config-file parent="aps-environment" target="*-Debug.plist">
+            <string>development</string>
+        </config-file>
+        <config-file parent="aps-environment" target="*-Release.plist">
+            <string>production</string>
+        </config-file>
+        <config-file parent="ITSAppUsesNonExemptEncryption" platform="ios" target="*-Info.plist">
+            <false />
+        </config-file>
+        <edit-config file="*-Info.plist" mode="merge" platform="ios" target="NSPhotoLibraryUsageDescription">
+            <string>Photo library access is required to access prescriptions photos.</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" platform="ios" target="NSCameraUsageDescription">
+            <string>Camera usage is required to take prescriptions photos.</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysAndWhenInUseUsageDescription">
+            <string>Your current location will be displayed on the map and your location will be send to your order provider
+        if you have the active geotracking feature activated.
+      </string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+            <string>Your current location will be displayed on the map and your location will be send to your order provider
+        if you have the active geotracking feature activated.
+      </string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription">
+            <string>Your current location will be displayed on the map and your location will be send to your order provider
+        if you have the active geotracking feature activated.
+      </string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSMotionUsageDescription">
+            <string>Using the accelerometer increases battery efficiency by intelligently toggling location tracking only when
+        the device is detected to be moving.
+      </string>
+        </edit-config>
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="40" src="resources/ios/icon/icon-40.png" width="40" />
@@ -53,43 +102,94 @@
         <icon height="29" src="resources/ios/icon/icon-small.png" width="29" />
         <icon height="58" src="resources/ios/icon/icon-small@2x.png" width="58" />
         <icon height="87" src="resources/ios/icon/icon-small@3x.png" width="87" />
+        <icon height="1024" src="resources/ios/icon/icon-1024.png" width="1024" />
         <splash height="1136" src="resources/ios/splash/Default-568h@2x~iphone.png" width="640" />
         <splash height="1334" src="resources/ios/splash/Default-667h.png" width="750" />
         <splash height="2208" src="resources/ios/splash/Default-736h.png" width="1242" />
         <splash height="1242" src="resources/ios/splash/Default-Landscape-736h.png" width="2208" />
         <splash height="1536" src="resources/ios/splash/Default-Landscape@2x~ipad.png" width="2048" />
-        <splash height="2048" src="resources/ios/splash/Default-Landscape@~ipadpro.png" width="2732" />
         <splash height="768" src="resources/ios/splash/Default-Landscape~ipad.png" width="1024" />
         <splash height="2048" src="resources/ios/splash/Default-Portrait@2x~ipad.png" width="1536" />
-        <splash height="2732" src="resources/ios/splash/Default-Portrait@~ipadpro.png" width="2048" />
         <splash height="1024" src="resources/ios/splash/Default-Portrait~ipad.png" width="768" />
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
-        <icon height="1024" src="resources/ios/icon/icon-1024.png" width="1024" />
+        <splash height="2048" src="resources/ios/splash/Default-Landscape@~ipadpro.png" width="2732" />
+        <splash height="2732" src="resources/ios/splash/Default-Portrait@~ipadpro.png" width="2048" />
         <splash height="2732" src="resources/ios/splash/Default@2x~universal~anyany.png" width="2732" />
     </platform>
-    <preference name="webviewbounce" value="false" />
-    <preference name="UIWebViewBounce" value="false" />
-    <preference name="DisallowOverscroll" value="true" />
-    <preference name="android-minSdkVersion" value="16" />
-    <preference name="BackupWebStorage" value="none" />
-    <preference name="SplashScreenDelay" value="4000" />
-    <preference name="FadeSplashScreen" value="true" />
-    <preference name="FadeSplashScreenDuration" value="500" />
-    <preference name="SplashScreenBackgroundColor" value="0xFFFFFFFF" />
-    <preference name="SplashScreen" value="screen" />
-    <preference name="fullscreen" value="false" />
+    <feature name="CDVWKWebViewEngine">
+        <param name="ios-package" value="CDVWKWebViewEngine" />
+    </feature>
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+    <preference name="webviewbounce" value="false" />
+    <preference name="UIWebViewBounce" value="false" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="BackupWebStorage" value="none" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    <preference name="FadeSplashScreenDuration" value="300" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
-    <engine name="android" spec="^6.2.3" />
-    <engine name="ios" spec="^4.4.0" />
-    <plugin name="cordova-plugin-console" spec="^1.0.7" />
-    <plugin name="cordova-plugin-device" spec="^1.1.6" />
-    <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
-    <plugin name="cordova-plugin-statusbar" spec="^2.2.3" />
-    <plugin name="cordova-plugin-whitelist" spec="^1.3.2" />
-    <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
-    <plugin name="cordova-sqlite-storage" spec="~2.1.4" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="ShowSplashScreenSpinner" value="true" />
+    <preference name="UseSwiftLanguageVersion" value="3.2" />
+    <icon src="resources/ios/icon/icon-small@3x.png" />
+    <plugin name="cordova-plugin-device" spec="^1.1.7" />
+    <plugin name="cordova-plugin-nativestorage" spec="^2.3.1" />
+    <plugin name="cordova-plugin-secure-storage" spec="^2.6.8" />
+    <plugin name="cordova-plugin-statusbar" spec="^2.4.1" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
+    <plugin name="cordova-plugin-sim" spec="^1.3.3" />
+    <plugin name="cordova.plugins.diagnostic" spec="^3.9.2" />
+    <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
+    <plugin name="cordova-plugin-is-debug" spec="^1.0.0" />
+    <plugin name="cordova-plugin-ionic-webview" spec="^1.1.16" />
+    <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
+    <plugin name="cordova-plugin-battery-status" spec="^2.0.1" />
+    <plugin name="cordova-plugin-camera" spec="^4.0.2" />
+    <plugin name="cordova-plugin-network-information" spec="^2.0.1" />
+    <plugin name="cordova-plugin-dialogs" spec="^2.0.1" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
+    <plugin name="cordova-plugin-file" spec="^6.0.1" />
+    <plugin name="cordova-sqlite-storage" spec="^2.3.1" />
+    <plugin name="cordova-background-geolocation" spec="local-plugins/cordova-background-geolocation">
+        <variable name="LICENSE" value="22222332475340a13bc75902176f44ddfc0d09a5d4bc57a3039ae19fe909b9af" />
+        <variable name="LOCATION_ALWAYS_AND_WHEN_IN_USE_USAGE_DESCRIPTION" value="Your current location will be displayed on the map and your location will be send to your order provider if you have the active geotracking feature activated." />
+        <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="Your current location will be displayed on the map and your location will be send to your order provider if you have the active geotracking feature activated." />
+        <variable name="LOCATION_WHEN_IN_USE_USAGE_DESCRIPTION" value="Your current location will be displayed on the map and your location will be send to your order provider if you have the active geotracking feature activated." />
+        <variable name="MOTION_USAGE_DESCRIPTION" value="Using the accelerometer increases battery efficiency by intelligently toggling location tracking only when the device is detected to be moving." />
+        <variable name="BACKGROUND_MODE_LOCATION" value="&lt;string&gt;location&lt;/string&gt;" />
+        <variable name="GOOGLE_API_VERSION" value="11.6.2" />
+        <variable name="APPCOMPAT_VERSION" value="27.0.2" />
+    </plugin>
+    <plugin name="cordova-plugin-ionic" spec="^4.2.0">
+        <variable name="APP_ID" value="3876261a" />
+        <variable name="CHANNEL_NAME" value="Master" />
+        <variable name="UPDATE_METHOD" value="background" />
+        <variable name="MAX_STORE" value="2" />
+        <variable name="WARN_DEBUG" value="true" />
+        <variable name="UPDATE_API" value="https://api.ionicjs.com" />
+        <variable name="ROLLBACK_TIMEOUT" value="10" />
+        <variable name="MIN_BACKGROUND_DURATION" value="30" />
+    </plugin>
+    <plugin name="cordova-android-support-gradle-release" spec="^1.4.3">
+        <variable name="ANDROID_SUPPORT_VERSION" value="26.+" />
+    </plugin>
+    <plugin name="phonegap-plugin-push" spec="^2.2.3">
+        <variable name="FCM_VERSION" value="11.6.2" />
+    </plugin>
+    <plugin name="cordova-plugin-googlemaps" spec="^2.2.9">
+        <variable name="GOOGLE_API_VERSION" value="11.6.2" />
+        <variable name="APPCOMPAT_VERSION" value="27.0.2" />
+        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyD1H0PL-DWGtOGvGzYhM3Jl7r_oiUbfUm8" />
+        <variable name="API_KEY_FOR_IOS" value="AIzaSyBw9TDCm89wXAvtubAu-r8nGy6pwyHL7rc" />
+        <variable name="PLAY_SERVICES_VERSION" value="11.6.2" />
+        <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Your current location will be displayed on the map and your location will be send to your order provider if you have the active geotracking feature activated." />
+        <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="Your current location will be displayed on the map and your location will be send to your order provider if you have the active geotracking feature activated." />
+        <variable name="ANDROID_SUPPORT_V4_VERSION" value="24.1.0" />
+    </plugin>
 </widget>

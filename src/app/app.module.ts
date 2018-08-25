@@ -8,7 +8,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
-import {Keyboard} from '@ionic-native/keyboard';
 
 import {ActivityService} from "../services/activity-service";
 import {TripService} from "../services/trip-service";
@@ -36,6 +35,18 @@ import {UnauthorizedInterceptor} from "../_helpers/error.interceptor";
 import {TranslateLoader} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {HttpClient} from "@angular/common/http";
+import {ConnectionStatusService} from "../services/connection-status-service";
+import {DeviceInfo} from "../models/information/device-info.model";
+import {Device} from "@ionic-native/device";
+import {Pro} from "@ionic/pro";
+import {DeviceInfoService} from "../services/device-info.service";
+import {IonicDeploy} from "../services/ionic-deploy.service";
+import {Diagnostic} from "@ionic-native/diagnostic";
+import {BatteryStatus} from "@ionic-native/battery-status";
+import {Sim} from "@ionic-native/sim";
+import {Network} from "@ionic-native/network";
+import {IsDebug} from "@ionic-native/is-debug";
+import {AppVersion} from "@ionic-native/app-version";
 
 // import services
 // end import services
@@ -56,7 +67,7 @@ import {HttpClient} from "@angular/common/http";
     RegisterPage,
     SearchLocationPage,
     TripDetailPage,
-    TripsPage
+    TripsPage,
   ],
   imports: [
     BrowserModule,
@@ -95,13 +106,23 @@ import {HttpClient} from "@angular/common/http";
   providers: [
     StatusBar,
     SplashScreen,
-    Keyboard,
+    ConnectionStatusService,
     ActivityService,
     TripService,
     WeatherProvider,
     AuthenticationService,
     EndpointService,
     LogService,
+    DeviceInfo,
+    DeviceInfoService,
+    IonicDeploy,
+    Diagnostic,
+    BatteryStatus,
+    Sim,
+    Network,
+    IsDebug,
+    AppVersion,
+    Device,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtTokenInterceptor,
@@ -116,6 +137,10 @@ import {HttpClient} from "@angular/common/http";
 })
 
 export class AppModule {
+}
+
+export namespace Global {
+  export var IonicPro: any = Pro.init('618826dd');
 }
 
 export function createTranslateLoader(http: HttpClient) {
